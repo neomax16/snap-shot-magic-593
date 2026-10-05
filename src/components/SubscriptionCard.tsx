@@ -1,4 +1,5 @@
-import { DISCORD_URL, type Suscripcion } from "@/data/subscriptions";
+import { DISCORD_URL } from "@/data/games";
+import type { Suscripcion } from "@/data/subscriptions";
 
 export function SubscriptionCard({ plan }: { plan: Suscripcion }) {
   return (
