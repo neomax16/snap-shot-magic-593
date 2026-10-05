@@ -6,6 +6,7 @@ import yoteiAsset from "@/assets/yotei.png.asset.json";
 import re9Asset from "@/assets/re9.png.asset.json";
 import gta6uAsset from "@/assets/gta6-ultimate.png.asset.json";
 import gta6sAsset from "@/assets/gta6-standard.png.asset.json";
+import legobatmanAsset from "@/assets/legobatman.png.asset.json";
 
 export type Game = {
   id: string;
