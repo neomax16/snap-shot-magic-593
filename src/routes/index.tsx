@@ -28,6 +28,7 @@ const links = [
   ["Inicio", "#inicio"],
   ["Nuevos lanzamientos", "#nuevos"],
   ["Catálogo", "#catalogo"],
+  ["Suscripciones", "#suscripciones"],
 ];
 
 function Index() {
@@ -108,6 +109,20 @@ function Index() {
             {filtered.map((g) => <div key={g.id} className="reveal"><GameCard game={g} /></div>)}
           </div>
           {filtered.length === 0 && <p className="mt-10 text-center text-muted-foreground">No se encontraron juegos.</p>}
+        </section>
+
+        <section id="suscripciones" className="mx-auto max-w-7xl scroll-mt-20 px-4 py-20">
+          <h2 className="section-title">Suscripciones</h2>
+          {gruposSuscripciones.map((grupo) => (
+            <div key={grupo.id} className="mt-12">
+              <h3 className="font-display text-2xl font-bold uppercase tracking-wider text-accent">{grupo.nombre}</h3>
+              <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {grupo.planes.map((plan) => (
+                  <div key={plan.id} className="reveal"><SubscriptionCard plan={plan} /></div>
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-20">
