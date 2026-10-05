@@ -129,7 +129,7 @@ function Index() {
           <h2 className="section-title">¿Cómo comprar?</h2>
           <ol className="mt-10 grid gap-6 md:grid-cols-3">
             {[
-              [Gamepad2, "Elige tu juego y la modalidad."],
+              [Gamepad2, "Elige tu juego."],
               [MessageCircle, "Pulsa \"Comprar\" y únete a nuestro Discord."],
               [Ticket, "Abre ticket y recibe tu juego."],
             ].map(([Icon, t], i) => {
