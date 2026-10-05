@@ -28,7 +28,7 @@ export const games: Game[] = [
   { id: "tsushima", nombre: "Ghost Of Tsushima", plataformas: "PS4 / PS5", precioPrimaria: 25, precioSecundaria: 15, nuevo: false, imagen: tsushimaAsset.url, hue: 20 },
   { id: "yotei", nombre: "Ghost Of Yotei", plataformas: "PS5", precioPrimaria: 40, precioSecundaria: 35, nuevo: false, imagen: yoteiAsset.url, hue: 350 },
   { id: "re9", nombre: "Resident Evil 9 / Requiem", plataformas: "PS5", precioPrimaria: 45, precioSecundaria: 35, nuevo: false, imagen: re9Asset.url, hue: 10 },
-  { id: "legobatman", nombre: "Lego Batman: Legacy of the Dark Knight", plataformas: "PS5", precioPrimaria: 40, precioSecundaria: 35, nuevo: false, hue: 260 },
+  { id: "legobatman", nombre: "Lego Batman: Legacy of the Dark Knight", plataformas: "PS5", precioPrimaria: 40, precioSecundaria: 35, nuevo: false, imagen: legobatmanAsset.url, hue: 260 },
   { id: "gta6u", nombre: "GTA 6 Ultimate Edition", plataformas: "PS5", precioPrimaria: 80, precioSecundaria: 70, nuevo: true, imagen: gta6uAsset.url, hue: 320 },
   { id: "gta6s", nombre: "GTA 6 Standard Edition", plataformas: "PS5", precioPrimaria: 60, precioSecundaria: 55, nuevo: true, imagen: gta6sAsset.url, hue: 200 },
 ];
