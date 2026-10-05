@@ -29,26 +29,18 @@ export function GameCard({ game }: { game: Game }) {
         <span className="w-fit rounded border border-accent/50 px-2 py-0.5 text-xs font-semibold text-accent">{game.plataformas}</span>
         <h3 className="font-display text-lg font-bold leading-tight">{game.nombre}</h3>
         <div className="mt-auto space-y-2">
-          {[
-            ["Cuenta primaria", game.precioPrimaria],
-            ["Cuenta secundaria", game.precioSecundaria],
-          ].map(([label, price]) => (
-            <div key={label as string} className="flex items-center justify-between gap-2 rounded-lg bg-muted p-2">
-              <div>
-                <p className="text-xs text-muted-foreground">{label}</p>
-                <p className="font-display text-xl font-bold">{price}€</p>
-              </div>
-              <a
-                href={DISCORD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Comprar ${game.nombre} - ${label}`}
-                className="btn-primary rounded-md px-4 py-2 text-sm font-semibold"
-              >
-                Comprar
-              </a>
-            </div>
-          ))}
+          <div className="flex items-center justify-between gap-2 rounded-lg bg-muted p-2">
+            <p className="font-display text-xl font-bold">{game.precio}€</p>
+            <a
+              href={DISCORD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Comprar ${game.nombre}`}
+              className="btn-primary rounded-md px-4 py-2 text-sm font-semibold"
+            >
+              Comprar
+            </a>
+          </div>
         </div>
       </div>
     </article>

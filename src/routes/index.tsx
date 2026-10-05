@@ -145,19 +145,6 @@ function Index() {
           </ol>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-20">
-          <h2 className="section-title">Cuenta primaria vs. secundaria</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <div className="reveal rounded-2xl border border-primary/50 bg-card p-6">
-              <h3 className="font-display text-2xl font-bold text-primary">Cuenta primaria</h3>
-              <p className="mt-3 text-muted-foreground">La mejor opción sin duda. Disfruta de tus juegos desde tu perfil personal. Podrás desbloquear logros (como el tan querido platino) y guardar tus partidas en tu perfil.</p>
-            </div>
-            <div className="reveal rounded-2xl border border-accent/50 bg-card p-6">
-              <h3 className="font-display text-2xl font-bold text-accent">Cuenta secundaria</h3>
-              <p className="mt-3 text-muted-foreground">La opción más económica. Disfruta de tus juegos desde el perfil que te entregamos.</p>
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="border-t border-border">
