@@ -2,7 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Menu, X, Search, Gamepad2, MessageCircle, Ticket } from "lucide-react";
 import { games, DISCORD_URL } from "@/data/games";
+import { gruposSuscripciones } from "@/data/subscriptions";
 import { GameCard } from "@/components/GameCard";
+import { SubscriptionCard } from "@/components/SubscriptionCard";
 import logoAsset from "@/assets/logo.png.asset.json";
 
 const LOGO = logoAsset.url;
