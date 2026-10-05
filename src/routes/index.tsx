@@ -3,7 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Menu, X, Search, Gamepad2, MessageCircle, Ticket } from "lucide-react";
 import { games, DISCORD_URL } from "@/data/games";
 import { GameCard } from "@/components/GameCard";
+import logoAsset from "@/assets/logo.png.asset.json";
 
+const LOGO = logoAsset.url;
 const TITLE = "PLAYCOREGAMES - Videojuegos digitales para PS4 y PS5";
 
 export const Route = createFileRoute("/")({
@@ -47,8 +49,10 @@ function Index() {
   return (
     <div className="min-h-screen">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-          <a href="#inicio" className="font-display text-xl font-black tracking-wider text-gradient">PLAYCOREGAMES</a>
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+          <a href="#inicio" className="flex items-center" aria-label="PLAYCOREGAMES - Inicio">
+            <img src={LOGO} alt="PLAYCOREGAMES" width={1024} height={1024} className="h-11 w-11 sm:h-12 sm:w-12" />
+          </a>
           <ul className="hidden items-center gap-8 md:flex">
             {links.map(([l, h]) => (
               <li key={h}><a href={h} className="text-sm font-medium text-muted-foreground transition hover:text-foreground">{l}</a></li>
@@ -74,8 +78,9 @@ function Index() {
           <div className="orb left-[-10%] top-[10%] bg-primary" />
           <div className="orb bottom-[0%] right-[-10%] bg-[var(--violet)]" />
           <div className="relative mx-auto max-w-7xl px-4 text-center">
-            <p className="mb-4 font-display text-sm tracking-[0.4em] text-accent">PS4 · PS5</p>
-            <h1 className="font-display text-5xl font-black tracking-wider sm:text-7xl lg:text-8xl text-gradient">PLAYCOREGAMES</h1>
+            <h1>
+              <img src={LOGO} alt="PLAYCOREGAMES - Tienda de videojuegos digitales" width={1024} height={1024} className="mx-auto h-56 w-auto sm:h-80 lg:h-[26rem]" />
+            </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">Tu tienda de videojuegos digitales para PS4 y PS5</p>
             <a href="#catalogo" className="btn-primary mt-10 inline-block rounded-lg px-8 py-4 font-display font-bold tracking-wider">Ver catálogo</a>
           </div>
@@ -128,11 +133,11 @@ function Index() {
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             <div className="reveal rounded-2xl border border-primary/50 bg-card p-6">
               <h3 className="font-display text-2xl font-bold text-primary">Cuenta primaria</h3>
-              <p className="mt-3 text-muted-foreground">Texto pendiente: explica aquí las ventajas de la cuenta primaria.</p>
+              <p className="mt-3 text-muted-foreground">La mejor opción sin duda. Disfruta de tus juegos desde tu perfil personal. Podrás desbloquear logros (como el tan querido platino) y guardar tus partidas en tu perfil.</p>
             </div>
             <div className="reveal rounded-2xl border border-accent/50 bg-card p-6">
               <h3 className="font-display text-2xl font-bold text-accent">Cuenta secundaria</h3>
-              <p className="mt-3 text-muted-foreground">Texto pendiente: explica aquí cómo funciona la cuenta secundaria.</p>
+              <p className="mt-3 text-muted-foreground">La opción más económica. Disfruta de tus juegos desde el perfil que te entregamos.</p>
             </div>
           </div>
         </section>
@@ -141,8 +146,8 @@ function Index() {
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="font-display text-lg font-black text-gradient">PLAYCOREGAMES</p>
-            <p>Tienda dedicada a PS4/PS5</p>
+            <img src={LOGO} alt="PLAYCOREGAMES" loading="lazy" width={1024} height={1024} className="h-14 w-14" />
+            <p className="mt-2">Tienda dedicada a PS4/PS5</p>
           </div>
           <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Únete a nuestro Discord</a>
           <div className="md:text-right">

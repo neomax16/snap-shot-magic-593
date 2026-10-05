@@ -26,7 +26,7 @@ export function GameCard({ game }: { game: Game }) {
         )}
       </div>
       <div className="flex flex-1 flex-col gap-3 p-4">
-        <span className="w-fit rounded border border-accent/50 px-2 py-0.5 text-xs font-semibold text-accent">PS4 / PS5</span>
+        <span className="w-fit rounded border border-accent/50 px-2 py-0.5 text-xs font-semibold text-accent">{game.plataformas}</span>
         <h3 className="font-display text-lg font-bold leading-tight">{game.nombre}</h3>
         <div className="mt-auto space-y-2">
           {[
