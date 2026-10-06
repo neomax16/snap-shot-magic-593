@@ -8,6 +8,7 @@ import gta6uAsset from "@/assets/gta6-ultimate.png.asset.json";
 import gta6sAsset from "@/assets/gta6-standard.png.asset.json";
 import legobatmanAsset from "@/assets/legobatman.png.asset.json";
 import sarosAsset from "@/assets/saros.png.asset.json";
+import readyornotAsset from "@/assets/readyornot.png.asset.json";
 
 export type Game = {
   id: string;
@@ -32,4 +33,5 @@ export const games: Game[] = [
   { id: "gta6u", nombre: "GTA 6 Ultimate Edition", plataformas: "PS5", precio: 80, nuevo: true, imagen: gta6uAsset.url, hue: 320 },
   { id: "gta6s", nombre: "GTA 6 Standard Edition", plataformas: "PS5", precio: 60, nuevo: true, imagen: gta6sAsset.url, hue: 200 },
   { id: "saros", nombre: "SAROS", plataformas: "PS5", precio: 42, nuevo: true, imagen: sarosAsset.url, hue: 45 },
+  { id: "readyornot", nombre: "Ready or Not", plataformas: "PS5", precio: 32, nuevo: true, imagen: readyornotAsset.url, hue: 210 },
 ];
