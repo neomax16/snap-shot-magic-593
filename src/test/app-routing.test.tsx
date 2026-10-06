@@ -28,4 +28,12 @@ describe("App routing", () => {
   it("keeps the requested Discord purchase destination", () => {
     expect(DISCORD_URL).toBe("https://discord.gg/GU2VYg565k");
   });
+  it("lists GTA 6 once with its existing edition prices and five gallery photos", () => {
+    const gtaGames = games.filter((game) => game.id.startsWith("gta6"));
+    expect(gtaGames).toHaveLength(1);
+    expect(gtaGames[0]?.id).toBe("gta6");
+    expect(gtaGames[0]?.ediciones).toEqual([{ nombre: "STANDARD E.", precio: 60 }, { nombre: "ULTIMATE E.", precio: 80 }]);
+    expect(gtaGames[0]?.galeria).toHaveLength(5);
+    gtaGames[0]?.galeria?.forEach((image) => expect(image.src).toBeTruthy());
+  });
 });
