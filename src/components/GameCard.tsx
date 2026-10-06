@@ -25,7 +25,7 @@ export function GameCard({ game }: { game: Game }) {
         <span className="text-[10px] font-semibold text-accent sm:text-xs">{game.plataformas}</span>
         <h3 className="min-h-10 break-words text-sm font-semibold leading-5 sm:min-h-12 sm:text-lg sm:leading-6"><Link to="/juegos/$gameId" params={{ gameId: game.id }} className="transition-colors hover:text-accent">{game.nombre}</Link></h3>
         <div className="mt-auto grid grid-cols-[minmax(0,1fr)_auto] items-center gap-1 border-t border-border pt-3">
-          <p className="text-lg font-bold sm:text-2xl">{game.precio}€</p>
+          <p className="text-lg font-bold sm:text-2xl">{game.ediciones && <span className="block text-[10px] font-normal text-muted-foreground sm:text-xs">Desde</span>}{game.precio}€</p>
           <Button asChild size="sm" className="gap-1 px-2 sm:gap-2 sm:px-3"><Link to="/juegos/$gameId" params={{ gameId: game.id }} aria-label={`Ver ${game.nombre}`}>Ver <ArrowRight /></Link></Button>
         </div>
       </div>

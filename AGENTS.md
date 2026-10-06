@@ -12,3 +12,4 @@
 - Keep shared storefront navigation and footer in StoreShell around the root Outlet so every game page has consistent navigation.
 - Game detail URLs use /juegos/$gameId and the existing catalog IDs; static descriptive content stays in a separate data module so cards and detail pages share the catalog's prices and supplied covers.
 - Do not infer release dates, availability or edition bonuses from cover artwork; show only confirmed general game information.
+- Optional catalog edition and gallery fields drive variant purchases and the reusable Embla gallery; legacy edition IDs redirect to the unified product to preserve shared URLs.
