@@ -9,6 +9,7 @@ import gta6sAsset from "@/assets/gta6-standard.png.asset.json";
 import legobatmanAsset from "@/assets/legobatman.png.asset.json";
 import sarosAsset from "@/assets/saros.png.asset.json";
 import readyornotAsset from "@/assets/readyornot.png.asset.json";
+import grounded2Asset from "@/assets/grounded2.png.asset.json";
 
 export type Game = {
   id: string;
@@ -32,6 +33,7 @@ export const games: Game[] = [
   { id: "legobatman", nombre: "Lego Batman: Legacy of the Dark Knight", plataformas: "PS5", precio: 40, nuevo: false, imagen: legobatmanAsset.url, hue: 260 },
   { id: "gta6u", nombre: "GTA 6 Ultimate Edition", plataformas: "PS5", precio: 80, nuevo: true, imagen: gta6uAsset.url, hue: 320 },
   { id: "gta6s", nombre: "GTA 6 Standard Edition", plataformas: "PS5", precio: 60, nuevo: true, imagen: gta6sAsset.url, hue: 200 },
-  { id: "saros", nombre: "SAROS", plataformas: "PS5", precio: 42, nuevo: true, imagen: sarosAsset.url, hue: 45 },
-  { id: "readyornot", nombre: "Ready or Not", plataformas: "PS5", precio: 32, nuevo: true, imagen: readyornotAsset.url, hue: 210 },
+  { id: "saros", nombre: "SAROS", plataformas: "PS5", precio: 42, nuevo: false, imagen: sarosAsset.url, hue: 45 },
+  { id: "readyornot", nombre: "Ready or Not", plataformas: "PS5", precio: 32, nuevo: false, imagen: readyornotAsset.url, hue: 210 },
+  { id: "grounded2", nombre: "Grounded 2", plataformas: "PS5", precio: 22, nuevo: false, imagen: grounded2Asset.url, hue: 110 },
 ];
