@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Gamepad2, MessageCircle, Monitor, Package } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Gamepad2, MessageCircle, Package } from "lucide-react";
 import { games, DISCORD_URL } from "@/data/games";
 import { gameDetails } from "@/data/game-details";
 import { GameCard } from "@/components/GameCard";

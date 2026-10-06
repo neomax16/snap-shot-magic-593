@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, Search, X, Gamepad2, MessageCircle, Ticket } from "lucide-react";
-import { games, DISCORD_URL } from "@/data/games";
+import { games } from "@/data/games";
 import { gruposSuscripciones } from "@/data/subscriptions";
 import { GameCard } from "@/components/GameCard";
 import { SubscriptionCard } from "@/components/SubscriptionCard";
@@ -10,12 +10,12 @@ import tsushimaAsset from "@/assets/tsushima.png.asset.json";
 
 const TITLE = "PLAYCOREGAMES — Videojuegos digitales para PS4 y PS5";
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (search: SearchSchemaInput & { q?: unknown; plataforma?: unknown; orden?: unknown }) => ({
     q: typeof search.q === "string" ? search.q : "",
     plataforma: search.plataforma === "PS4" || search.plataforma === "PS5" ? search.plataforma : "Todos",
     orden: search.orden === "precio-asc" || search.orden === "precio-desc" || search.orden === "nombre" ? search.orden : "destacados",
   }),
-  head: () => ({ meta: [{ title: TITLE }, { name: "description", content: "Explora videojuegos digitales para PS4 y PS5 y suscripciones PS Plus en PLAYCOREGAMES." }, { property: "og:title", content: TITLE }, { property: "og:description", content: "Descubre nuestro catálogo de juegos digitales y PS Plus. Compra a través de Discord." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { property: "og:image", content: tsushimaAsset.url }, { name: "twitter:image", content: tsushimaAsset.url }] }),
+  head: () => ({ meta: [{ title: TITLE }, { name: "description", content: "Explora videojuegos digitales para PS4 y PS5 y suscripciones PS Plus en PLAYCOREGAMES." }, { property: "og:title", content: TITLE }, { property: "og:description", content: "Descubre nuestro catálogo de juegos digitales y PS Plus. Compra a través de Discord." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, ...(tsushimaAsset.url.startsWith("https://") ? [{ property: "og:image", content: tsushimaAsset.url }, { name: "twitter:image", content: tsushimaAsset.url }] : [])] }),
   component: Index,
 });
 

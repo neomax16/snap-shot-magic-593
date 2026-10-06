@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { DISCORD_URL } from "@/data/games";
 import logoAsset from "@/assets/logo.png.asset.json";
 
-const navigation = [["Inicio", "inicio"], ["Novedades", "nuevos"], ["Catálogo", "catalogo"], ["Suscripciones", "suscripciones"]];
+const navigation = [["Inicio", "inicio"], ["Novedades", "nuevos"], ["Catálogo", "catalogo"], ["Suscripciones", "suscripciones"]] as const;
 
 export function StoreHeader() {
   const [open, setOpen] = useState(false);

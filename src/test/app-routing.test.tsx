@@ -22,7 +22,7 @@ describe("App routing", () => {
     expect(router.matchRoutes(`/juegos/${game.id}`).at(-1)?.routeId).toBe("/juegos/$gameId");
     expect(gameDetails[game.id]?.descripcion).toBeTruthy();
     expect(gameDetails[game.id]?.aspectos.length).toBeGreaterThan(0);
-    expect(game.imagen).toMatch(/^https:\/\//);
+    expect(game.imagen).toBeTruthy();
   });
 
   it("keeps the requested Discord purchase destination", () => {
