@@ -1,165 +1,72 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { Menu, X, Search, Gamepad2, MessageCircle, Ticket } from "lucide-react";
-import { games, DISCORD_URL } from "@/data/games";
+import { createFileRoute, type SearchSchemaInput } from "@tanstack/react-router";
+import { ArrowDown, ArrowRight, Search, X, Gamepad2, MessageCircle, Ticket } from "lucide-react";
+import { games } from "@/data/games";
 import { gruposSuscripciones } from "@/data/subscriptions";
 import { GameCard } from "@/components/GameCard";
 import { SubscriptionCard } from "@/components/SubscriptionCard";
+import { Button } from "@/components/ui/button";
 import logoAsset from "@/assets/logo.png.asset.json";
+import tsushimaAsset from "@/assets/tsushima.png.asset.json";
 
-const LOGO = logoAsset.url;
-const TITLE = "PLAYCOREGAMES - Videojuegos digitales para PS4 y PS5";
-
+const TITLE = "PLAYCOREGAMES — Videojuegos digitales para PS4 y PS5";
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: TITLE },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: "Tu tienda de videojuegos digitales para PS4 y PS5." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
+  validateSearch: (search: SearchSchemaInput & { q?: unknown; plataforma?: unknown; orden?: unknown }) => ({
+    q: typeof search.q === "string" ? search.q : "",
+    plataforma: search.plataforma === "PS4" || search.plataforma === "PS5" ? search.plataforma : "Todos",
+    orden: search.orden === "precio-asc" || search.orden === "precio-desc" || search.orden === "nombre" ? search.orden : "destacados",
   }),
+  head: () => ({ meta: [{ title: TITLE }, { name: "description", content: "Explora videojuegos digitales para PS4 y PS5 y suscripciones PS Plus en PLAYCOREGAMES." }, { property: "og:title", content: TITLE }, { property: "og:description", content: "Descubre nuestro catálogo de juegos digitales y PS Plus. Compra a través de Discord." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, ...(tsushimaAsset.url.startsWith("https://") ? [{ property: "og:image", content: tsushimaAsset.url }, { name: "twitter:image", content: tsushimaAsset.url }] : [])] }),
   component: Index,
 });
 
-const links = [
-  ["Inicio", "#inicio"],
-  ["Nuevos lanzamientos", "#nuevos"],
-  ["Catálogo", "#catalogo"],
-  ["Suscripciones", "#suscripciones"],
-];
-
 function Index() {
-  const [open, setOpen] = useState(false);
-  const [q, setQ] = useState("");
-  const filtered = useMemo(
-    () => games.filter((g) => g.nombre.toLowerCase().includes(q.trim().toLowerCase())),
-    [q],
-  );
+  const { q, plataforma, orden } = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const update = (values: Partial<{ q: string; plataforma: string; orden: string }>) => navigate({ search: (prev) => ({ ...prev, ...values }), replace: true, resetScroll: false });
+  const filtered = games.filter((g) => g.nombre.toLowerCase().includes(q.trim().toLowerCase()) && (plataforma === "Todos" || g.plataformas.includes(plataforma))).sort((a, b) => orden === "precio-asc" ? a.precio - b.precio : orden === "precio-desc" ? b.precio - a.precio : orden === "nombre" ? a.nombre.localeCompare(b.nombre) : 0);
   const nuevos = games.filter((g) => g.nuevo);
+  return <>
+    <section id="inicio" className="store-hero relative isolate flex min-h-[480px] scroll-mt-20 items-center overflow-hidden sm:min-h-[530px]">
+      <img src={tsushimaAsset.url} alt="Ghost of Tsushima" className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_35%]" fetchPriority="high" />
+      <div className="hero-scrim absolute inset-0 -z-10" />
+      <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+        <img src={logoAsset.url} alt="" className="mb-5 h-20 w-20 sm:h-24 sm:w-24" />
+        <p className="mb-3 text-xs font-semibold uppercase text-accent">PS4 · PS5 · PS PLUS</p>
+        <h1 className="max-w-2xl font-display text-3xl font-bold leading-tight text-hero-foreground sm:text-5xl">PLAYCORE<br />GAMES</h1>
+        <p className="mt-5 max-w-sm text-base leading-6 text-hero-muted sm:text-lg">Tu tienda de videojuegos digitales para PS4 y PS5</p>
+        <Button asChild size="lg" className="mt-7 h-12"><a href="#catalogo">Ver catálogo <ArrowRight /></a></Button>
+        <a href="#nuevos" aria-label="Ir a novedades" className="mt-9 flex w-fit items-center gap-2 text-xs text-hero-muted">Novedades <ArrowDown className="h-4 w-4" /></a>
+      </div>
+    </section>
 
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
-      { threshold: 0.1 },
-    );
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, [filtered.length]);
+    <section id="nuevos" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14">
+      <div className="mb-6 flex items-center gap-3"><span className="h-2 w-2 rounded-full bg-accent" /><h2 className="section-title">Nuevos lanzamientos</h2></div>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">{nuevos.map((g) => <GameCard key={g.id} game={g} />)}</div>
+    </section>
 
-  return (
-    <div className="min-h-screen">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
-          <a href="#inicio" className="flex items-center" aria-label="PLAYCOREGAMES - Inicio">
-            <img src={LOGO} alt="PLAYCOREGAMES" width={1024} height={1024} className="h-11 w-11 sm:h-12 sm:w-12" />
-          </a>
-          <ul className="hidden items-center gap-8 md:flex">
-            {links.map(([l, h]) => (
-              <li key={h}><a href={h} className="text-sm font-medium text-muted-foreground transition hover:text-foreground">{l}</a></li>
-            ))}
-            <li><a href={DISCORD_URL} target="_blank" rel="noopener noreferrer" className="btn-primary rounded-md px-4 py-2 text-sm font-semibold">Discord</a></li>
-          </ul>
-          <button className="md:hidden" aria-label={open ? "Cerrar menú" : "Abrir menú"} onClick={() => setOpen(!open)}>
-            {open ? <X /> : <Menu />}
-          </button>
-        </nav>
-        {open && (
-          <ul className="flex flex-col gap-4 border-t border-border px-4 py-4 md:hidden">
-            {links.map(([l, h]) => (
-              <li key={h}><a href={h} onClick={() => setOpen(false)} className="block font-medium">{l}</a></li>
-            ))}
-            <li><a href={DISCORD_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-accent">Discord</a></li>
-          </ul>
-        )}
-      </header>
-
-      <main>
-        <section id="inicio" className="hero relative flex min-h-[90vh] items-center overflow-hidden pt-20">
-          <div className="orb left-[-10%] top-[10%] bg-primary" />
-          <div className="orb bottom-[0%] right-[-10%] bg-[var(--violet)]" />
-          <div className="relative mx-auto max-w-7xl px-4 text-center">
-            <h1>
-              <img src={LOGO} alt="PLAYCOREGAMES - Tienda de videojuegos digitales" width={1024} height={1024} className="mx-auto h-56 w-auto sm:h-80 lg:h-[26rem]" />
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">Tu tienda de videojuegos digitales para PS4 y PS5</p>
-            <a href="#catalogo" className="btn-primary mt-10 inline-block rounded-lg px-8 py-4 font-display font-bold tracking-wider">Ver catálogo</a>
-          </div>
-        </section>
-
-        <section id="nuevos" className="mx-auto max-w-7xl scroll-mt-20 px-4 py-20">
-          <h2 className="section-title">Nuevos lanzamientos</h2>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {nuevos.map((g) => <div key={g.id} className="reveal"><GameCard game={g} /></div>)}
-          </div>
-        </section>
-
-        <section id="catalogo" className="mx-auto max-w-7xl scroll-mt-20 px-4 py-20">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-            <h2 className="section-title">Catálogo</h2>
-            <label className="relative block w-full sm:w-80">
-              <span className="sr-only">Buscar juego</span>
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar juego..." className="w-full rounded-lg border border-input bg-card py-3 pl-10 pr-4 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/40" />
-            </label>
-          </div>
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filtered.map((g) => <div key={g.id} className="reveal"><GameCard game={g} /></div>)}
-          </div>
-          {filtered.length === 0 && <p className="mt-10 text-center text-muted-foreground">No se encontraron juegos.</p>}
-        </section>
-
-        <section id="suscripciones" className="mx-auto max-w-7xl scroll-mt-20 px-4 py-20">
-          <h2 className="section-title">Suscripciones</h2>
-          {gruposSuscripciones.map((grupo) => (
-            <div key={grupo.id} className="mt-12">
-              <h3 className="font-display text-2xl font-bold uppercase tracking-wider text-accent">{grupo.nombre}</h3>
-              <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {grupo.planes.map((plan) => (
-                  <div key={plan.id} className="reveal"><SubscriptionCard plan={plan} /></div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </section>
-
-        <section className="mx-auto max-w-7xl px-4 py-20">
-          <h2 className="section-title">¿Cómo comprar?</h2>
-          <ol className="mt-10 grid gap-6 md:grid-cols-3">
-            {[
-              [Gamepad2, "Elige tu juego."],
-              [MessageCircle, "Pulsa \"Comprar\" y únete a nuestro Discord."],
-              [Ticket, "Abre ticket y recibe tu juego."],
-            ].map(([Icon, t], i) => {
-              const I = Icon as typeof Gamepad2;
-              return (
-                <li key={i} className="reveal game-card rounded-2xl border border-border bg-card p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/15 text-primary"><I /></div>
-                  <p className="font-display text-3xl font-black text-accent">{i + 1}</p>
-                  <p className="mt-2 text-lg">{t as string}</p>
-                </li>
-              );
-            })}
-          </ol>
-        </section>
-
-      </main>
-
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <div>
-            <img src={LOGO} alt="PLAYCOREGAMES" loading="lazy" width={1024} height={1024} className="h-14 w-14" />
-            <p className="mt-2">Tienda dedicada a PS4/PS5</p>
-          </div>
-          <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Únete a nuestro Discord</a>
-          <div className="md:text-right">
-            <p>© 2026 PLAYCOREGAMES</p>
-            <p className="text-xs">No afiliado a Sony Interactive Entertainment. Todas las marcas pertenecen a sus respectivos propietarios.</p>
-          </div>
+    <section id="catalogo" className="border-y border-border bg-surface">
+      <div className="mx-auto max-w-7xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14">
+        <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(240px,340px)] sm:items-center">
+          <div className="min-w-0"><h2 className="section-title">Catálogo</h2><p className="mt-2 text-xs text-muted-foreground">{filtered.length} juegos</p></div>
+          <label className="relative block min-w-0"><span className="sr-only">Buscar juego</span><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input value={q} onChange={(e) => update({ q: e.target.value })} placeholder="Buscar juego..." className="h-11 w-full rounded-md border border-input bg-card pl-10 pr-12 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/30" />{q && <Button variant="ghost" size="icon" className="absolute right-1 top-1" aria-label="Borrar búsqueda" onClick={() => update({ q: "" })}><X /></Button>}</label>
         </div>
-      </footer>
-    </div>
-  );
+        <div className="my-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+          <div className="flex min-w-0 gap-1" aria-label="Filtrar por plataforma">{["Todos", "PS4", "PS5"].map((p) => <Button key={p} size="sm" variant={plataforma === p ? "default" : "ghost"} aria-pressed={plataforma === p} onClick={() => update({ plataforma: p })} className="px-2 sm:px-4">{p}</Button>)}</div>
+          <label className="min-w-0"><span className="sr-only">Ordenar juegos</span><select value={orden} onChange={(e) => update({ orden: e.target.value })} className="h-9 w-[132px] rounded-md border border-input bg-card px-2 text-xs text-foreground outline-none focus:ring-2 focus:ring-primary sm:w-44"><option value="destacados">Destacados</option><option value="precio-asc">Precio: menor a mayor</option><option value="precio-desc">Precio: mayor a menor</option><option value="nombre">Nombre: A–Z</option></select></label>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4" aria-live="polite">{filtered.map((g) => <GameCard key={g.id} game={g} />)}</div>
+        {filtered.length === 0 && <div className="py-16 text-center"><Search className="mx-auto mb-4 h-8 w-8 text-muted-foreground" /><p className="text-muted-foreground">No se encontraron juegos.</p><Button variant="outline" className="mt-5" onClick={() => update({ q: "", plataforma: "Todos" })}>Mostrar todos</Button></div>}
+      </div>
+    </section>
+
+    <section id="suscripciones" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-10 sm:px-6 sm:py-14">
+      <h2 className="section-title">Suscripciones</h2>
+      {gruposSuscripciones.map((grupo) => <div key={grupo.id} className="mt-7"><h3 className="mb-5 text-lg font-bold text-accent">{grupo.nombre}</h3><div className="grid gap-4 sm:grid-cols-3 sm:gap-5">{grupo.planes.map((plan) => <SubscriptionCard key={plan.id} plan={plan} />)}</div></div>)}
+    </section>
+
+    <section className="mx-auto max-w-7xl border-t border-border px-4 py-10 sm:px-6">
+      <h2 className="section-title">¿Cómo comprar?</h2>
+      <ol className="mt-7 grid gap-7 md:grid-cols-3">{[{ icon: Gamepad2, text: "Elige tu juego." }, { icon: MessageCircle, text: 'Pulsa “Comprar” y únete a nuestro Discord.' }, { icon: Ticket, text: "Abre ticket y recibe tu juego." }].map(({ icon: Icon, text }, i) => <li key={text} className="flex items-start gap-4"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-secondary text-accent"><Icon className="h-5 w-5" /></div><div><span className="text-xs font-semibold text-accent">0{i + 1}</span><p className="mt-1 text-sm leading-6">{text}</p></div></li>)}</ol>
+    </section>
+  </>;
 }

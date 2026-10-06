@@ -46,6 +46,10 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-surface: var(--surface);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-muted: var(--hero-muted);
+  --shadow-cover: var(--cover-shadow);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -64,10 +68,15 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.15 0.03 265);
+  --radius: 0.5rem;
+  --surface: oklch(0.17 0.012 260);
+  --hero-foreground: oklch(0.99 0 0);
+  --hero-muted: oklch(0.87 0.012 250);
+  --hero-overlay: oklch(0.1 0.015 260);
+  --cover-shadow: 0 18px 48px -16px oklch(0.05 0.01 260 / 70%);
+  --background: oklch(0.13 0.015 260);
   --foreground: oklch(0.97 0.01 250);
-  --card: oklch(0.2 0.035 265);
+  --card: oklch(0.205 0.016 260);
   --card-foreground: oklch(0.97 0.01 250);
   --popover: oklch(0.2 0.035 265);
   --popover-foreground: oklch(0.97 0.01 250);
@@ -77,7 +86,7 @@
   --secondary-foreground: oklch(0.97 0.01 250);
   --muted: oklch(0.25 0.04 265);
   --muted-foreground: oklch(0.72 0.03 255);
-  --accent: oklch(0.82 0.14 205);
+  --accent: oklch(0.85 0.14 165);
   --accent-foreground: oklch(0.15 0.03 265);
   --violet: oklch(0.6 0.22 295);
   --destructive: oklch(0.6 0.22 25);
@@ -151,8 +160,21 @@
 @utility text-gradient { background: linear-gradient(90deg, var(--primary), var(--accent), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 @utility glow { box-shadow: 0 0 18px color-mix(in oklab, var(--primary) 70%, transparent); }
 @utility btn-primary { background: var(--primary); color: var(--primary-foreground); transition: all .25s ease; &:hover { box-shadow: 0 0 22px color-mix(in oklab, var(--primary) 80%, transparent), 0 0 40px color-mix(in oklab, var(--accent) 30%, transparent); transform: translateY(-1px); } }
-@utility game-card { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; &:hover { transform: translateY(-6px); border-color: color-mix(in oklab, var(--accent) 60%, transparent); box-shadow: 0 12px 40px -10px color-mix(in oklab, var(--primary) 60%, transparent); } }
-@utility section-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.75rem, 4vw, 2.5rem); letter-spacing: .05em; text-transform: uppercase; }
+@utility game-card { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; &:hover { border-color: color-mix(in oklab, var(--accent) 45%, transparent); box-shadow: var(--cover-shadow); } }
+@utility section-title { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1.4; letter-spacing: 0; }
 @utility hero { background: radial-gradient(ellipse at top, color-mix(in oklab, var(--primary) 25%, transparent), transparent 60%), linear-gradient(180deg, var(--background), oklch(0.12 0.03 270)); }
 @utility orb { position: absolute; width: 28rem; height: 28rem; border-radius: 9999px; filter: blur(120px); opacity: .35; pointer-events: none; }
 @utility reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; &.in { opacity: 1; transform: none; } }
+
+* { letter-spacing: 0; }
+section[id] { scroll-margin-top: 90px; }
+.hero-scrim { background: linear-gradient(90deg, color-mix(in oklab, var(--hero-overlay) 94%, transparent), color-mix(in oklab, var(--hero-overlay) 55%, transparent) 60%, color-mix(in oklab, var(--hero-overlay) 25%, transparent)), linear-gradient(0deg, var(--background), transparent 30%); }
+.page-enter { animation: page-enter .4s ease both; }
+@keyframes page-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (min-width: 640px) { .section-title { font-size: 1.75rem; } }
+@media (hover: hover) { .game-card:hover { transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
