@@ -1,11 +1,29 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Instagram, Menu, Moon, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DISCORD_URL } from "@/data/games";
 import logoAsset from "@/assets/logo.png.asset.json";
 
 const navigation = [["Inicio", "inicio"], ["Novedades", "nuevos"], ["Catálogo", "catalogo"], ["Suscripciones", "suscripciones"]] as const;
+const INSTAGRAM_URL = "https://www.instagram.com/playcoregamespsn";
+
+function ThemeToggle() {
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    setDark(document.documentElement.classList.contains("dark"));
+  }, []);
+
+  const toggleTheme = () => {
+    const nextDark = !dark;
+    document.documentElement.classList.toggle("dark", nextDark);
+    window.localStorage.setItem("playcore-theme", nextDark ? "dark" : "light");
+    setDark(nextDark);
+  };
+
+  return <Button variant="ghost" size="icon" aria-label={dark ? "Activar modo claro" : "Activar modo oscuro"} title={dark ? "Modo claro" : "Modo oscuro"} onClick={toggleTheme}>{dark ? <Sun /> : <Moon />}</Button>;
+}
 
 export function StoreHeader() {
   const [open, setOpen] = useState(false);
@@ -20,12 +38,15 @@ export function StoreHeader() {
           <div className="hidden items-center gap-6 lg:flex">
             {navigation.map(([label, hash]) => <Link key={hash} to="/" hash={hash} className="text-sm text-muted-foreground transition-colors hover:text-accent">{label}</Link>)}
           </div>
+          <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex"><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram de PLAYCOREGAMES" title="Instagram"><Instagram /></a></Button>
+          <ThemeToggle />
           <Button asChild size="sm" className="hidden sm:inline-flex"><a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">Discord <ArrowUpRight /></a></Button>
           <Button variant="ghost" size="icon" className="lg:hidden" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? "Cerrar menú" : "Abrir menú"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
         </div>
       </nav>
       {open && <nav id="mobile-menu" aria-label="Menú móvil" className="grid gap-1 border-t border-border px-4 py-3 lg:hidden">
         {navigation.map(([label, hash]) => <Button key={hash} asChild variant="ghost" className="justify-start"><Link to="/" hash={hash} onClick={() => setOpen(false)}>{label}</Link></Button>)}
+        <Button asChild variant="ghost" className="justify-start"><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"><Instagram /> Instagram <ArrowUpRight /></a></Button>
         <Button asChild className="mt-2"><a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">Discord <ArrowUpRight /></a></Button>
       </nav>}
     </header>
@@ -35,7 +56,7 @@ export function StoreHeader() {
 export function StoreFooter() {
   return <footer className="mt-12 border-t border-border"><div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 text-sm text-muted-foreground sm:px-6 md:grid-cols-[1fr_auto]">
     <div><p className="font-display text-sm font-bold text-foreground">PLAYCOREGAMES</p><p className="mt-2">Videojuegos digitales para PS4 y PS5</p></div>
-    <Button asChild variant="outline"><a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">Únete a Discord <ArrowUpRight /></a></Button>
+    <div className="flex flex-wrap gap-2"><Button asChild variant="outline"><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"><Instagram /> Instagram <ArrowUpRight /></a></Button><Button asChild variant="outline"><a href={DISCORD_URL} target="_blank" rel="noopener noreferrer">Únete a Discord <ArrowUpRight /></a></Button></div>
     <p className="text-xs md:col-span-2">© 2026 PLAYCOREGAMES · No afiliado a Sony Interactive Entertainment. Todas las marcas pertenecen a sus respectivos propietarios.</p>
   </div></footer>;
 }

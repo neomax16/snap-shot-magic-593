@@ -4,3 +4,4 @@
 - [x] Create individual game pages with cover, information, price and Discord purchase.
 - [x] Improve navigation, filtering and subtle motion without changing prices or supplied images.
 - [x] Verify navigation and mobile layouts.
+- [x] Add persistent light/dark mode and Instagram access across the storefront.
