@@ -13,3 +13,4 @@
 - Game detail URLs use /juegos/$gameId and the existing catalog IDs; static descriptive content stays in a separate data module so cards and detail pages share the catalog's prices and supplied covers.
 - Do not infer release dates, availability or edition bonuses from cover artwork; show only confirmed general game information.
 - Optional catalog edition and gallery fields drive variant purchases and the reusable Embla gallery; legacy edition IDs redirect to the unified product to preserve shared URLs.
+- Store theme preference in `playcore-theme` and apply it before page content renders so light/dark mode stays consistent between visits.
