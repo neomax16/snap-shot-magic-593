@@ -105,7 +105,7 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="es">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `try{const saved=localStorage.getItem("playcore-theme");const dark=saved?saved==="dark":matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",dark)}catch{}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `try{const saved=localStorage.getItem("playcore-theme");document.documentElement.classList.toggle("dark",saved?saved==="dark":true)}catch{document.documentElement.classList.add("dark")}` }} />
         <HeadContent />
       </head>
       <body>

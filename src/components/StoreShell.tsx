@@ -9,7 +9,7 @@ const navigation = [["Inicio", "inicio"], ["Novedades", "nuevos"], ["Catálogo",
 const INSTAGRAM_URL = "https://www.instagram.com/playcoregamespsn";
 
 function ThemeToggle() {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
 
   useEffect(() => {
     setDark(document.documentElement.classList.contains("dark"));
